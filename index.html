@@ -1,0 +1,1791 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SCHOOLRIDE — Safe. Connected. On Time.</title>
+<meta name="description" content="SCHOOLRIDE — modern school transportation with live GPS tracking, verified drivers, boarding alerts and predictive ETAs. Trusted by 1,200+ schools.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Inter+Tight:wght@500..900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { ink:'#07080D', ink2:'#0E1018', paper:'#F4F5F7', sun:'#FFD400', cobalt:'#1B5BFF' },
+        fontFamily: { sans:['Inter','system-ui','sans-serif'], disp:['"Inter Tight"','Inter','sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+/* ============ BASE ============ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;background:#07080D;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+::selection{background:#FFD400;color:#07080D}
+section[id]{scroll-margin-top:86px}
+
+.wrap{width:min(1280px,100% - 44px);margin-inline:auto}
+@media (max-width:700px){.wrap{width:calc(100% - 32px)}}
+
+/* ============ TYPE ============ */
+.disp{font-family:'Inter Tight',Inter,sans-serif;font-weight:900;letter-spacing:-.038em;line-height:.94;margin:0}
+h1.disp{font-size:clamp(2.9rem,8.6vw,7rem)}
+h2.disp{font-size:clamp(1.95rem,4.4vw,3.5rem);line-height:1}
+h3.disp{font-size:clamp(1.1rem,1.7vw,1.4rem);line-height:1.12}
+.lead{font-size:clamp(1rem,1.15vw,1.13rem);line-height:1.65;font-weight:400;max-width:62ch}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.sec-dark .eyebrow{color:#FFD400}
+.sec-light .eyebrow{color:#1B5BFF}
+.sec-light{color:#07080D}
+.lead-dark{color:rgba(7,8,13,.62)}
+.sec-dark .lead{color:rgba(255,255,255,.66)}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:.95rem;letter-spacing:-.01em;border-radius:999px;padding:15px 26px;border:1px solid transparent;transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s,background .3s,border-color .3s,color .3s;white-space:nowrap}
+.btn-yellow{background:#FFD400;color:#07080D;box-shadow:0 14px 34px -14px rgba(255,212,0,.85)}
+.btn-yellow:hover{transform:translateY(-2px);box-shadow:0 22px 44px -16px rgba(255,212,0,.95)}
+.btn-ghost{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.45);transform:translateY(-2px)}
+.btn-dark{background:#07080D;color:#fff}
+.btn-dark:hover{transform:translateY(-2px);box-shadow:0 18px 34px -18px rgba(7,8,13,.8)}
+.btn-sm{padding:11px 20px;font-size:.85rem}
+.btn .ar{transition:transform .3s}
+.btn:hover .ar{transform:translateX(3px)}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:90;border-bottom:1px solid transparent;transition:background .4s,border-color .4s,backdrop-filter .4s}
+.site-nav.scrolled{background:rgba(6,7,11,.8);-webkit-backdrop-filter:blur(20px) saturate(150%);backdrop-filter:blur(20px) saturate(150%);border-bottom-color:rgba(255,255,255,.09)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;height:74px}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Inter Tight',sans-serif;font-weight:900;letter-spacing:-.035em;font-size:1.05rem;color:#fff}
+.brand-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(150deg,#FFE45C,#FFC000);display:grid;place-items:center;box-shadow:0 8px 22px -8px rgba(255,212,0,.95);flex:none}
+.brand-mark svg{width:19px;height:19px}
+.brand em{font-style:normal;color:#FFD400}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{padding:9px 13px;border-radius:999px;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.7);transition:color .25s,background .25s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.burger{display:none;width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);place-items:center;gap:4px;flex-direction:column}
+.burger span{display:block;width:16px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (max-width:1080px){.nav-links{display:none}.burger{display:grid}}
+.mobile-menu{position:fixed;top:74px;left:0;right:0;z-index:89;background:rgba(6,7,11,.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);padding:14px 0 24px;opacity:0;transform:translateY(-14px);pointer-events:none;transition:.35s cubic-bezier(.2,.7,.3,1)}
+.mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
+.mobile-menu a{display:block;padding:14px 4px;font-size:1.15rem;font-weight:800;font-family:'Inter Tight',sans-serif;letter-spacing:-.02em;border-bottom:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.86)}
+
+/* ============ SCROLL PROGRESS ============ */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#FFD400,#1B5BFF);z-index:99;transition:width .1s linear}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;background:#05060a;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(110% 85% at 78% 22%,rgba(255,212,0,.20),transparent 58%),
+  radial-gradient(90% 80% at 6% 88%,rgba(27,91,255,.24),transparent 62%),
+  linear-gradient(180deg,#0a0c14 0%,#06070c 58%,#04050a 100%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(80% 70% at 50% 45%,#000 10%,transparent 78%);-webkit-mask-image:radial-gradient(80% 70% at 50% 45%,#000 10%,transparent 78%)}
+.hero-vig{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(120% 100% at 50% 40%,transparent 40%,rgba(4,5,9,.72) 100%)}
+#scene{position:absolute;inset:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none}
+.hero-inner{position:relative;z-index:5;width:100%;padding:132px 0 84px;pointer-events:none}
+.hero-inner a,.hero-inner button{pointer-events:auto}
+.hero-copy{max-width:100%}
+@media(min-width:1024px){.hero-copy{max-width:min(680px,52vw)}}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 15px 8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.pulse{width:8px;height:8px;border-radius:50%;background:#37E46F;box-shadow:0 0 0 0 rgba(55,228,111,.7);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(55,228,111,.55)}70%{box-shadow:0 0 0 10px rgba(55,228,111,0)}100%{box-shadow:0 0 0 0 rgba(55,228,111,0)}}
+.hero-h1{margin:22px 0 20px}
+.hero-h1 span{display:block}
+.hero-h1 .w3{color:#FFD400}
+.hero-sub{color:rgba(255,255,255,.68);font-size:clamp(1rem,1.25vw,1.15rem);line-height:1.62;max-width:46ch;margin:0 0 32px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:52px;padding-top:26px;border-top:1px solid rgba(255,255,255,.12);max-width:640px}
+@media(max-width:700px){.hero-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:34px}}
+.hstat b{display:block;font-family:'Inter Tight',sans-serif;font-size:clamp(1.25rem,2.2vw,1.7rem);font-weight:900;letter-spacing:-.03em;color:#fff}
+.hstat span{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+
+/* hotspots */
+.hotspots{position:absolute;inset:0;z-index:4;pointer-events:none}
+.hotspot{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;padding:7px 13px 7px 9px;border-radius:999px;background:rgba(8,10,16,.66);border:1px solid rgba(255,255,255,.2);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.02em;cursor:pointer;pointer-events:auto;transition:background .25s,color .25s,border-color .25s,box-shadow .25s;transform:translate(calc(-50% + var(--x,0px)),calc(-50% + var(--y,0px)))}
+.hotspot:hover,.hotspot.active{background:#FFD400;color:#07080D;border-color:transparent;box-shadow:0 12px 28px -12px rgba(255,212,0,.9)}
+.hotspot .hd{width:7px;height:7px;border-radius:50%;background:#FFD400;flex:none;transition:background .25s}
+.hotspot:hover .hd,.hotspot.active .hd{background:#07080D}
+.hotspot .tip{position:absolute;bottom:calc(100% + 14px);left:50%;width:250px;transform:translate(-50%,8px);opacity:0;pointer-events:none;transition:.32s cubic-bezier(.2,.7,.3,1);padding:15px 16px;border-radius:18px;background:rgba(10,12,18,.94);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);text-align:left;box-shadow:0 30px 50px -30px rgba(0,0,0,.9)}
+.hotspot .tip b{display:block;font-size:.86rem;font-weight:800;letter-spacing:-.01em;color:#FFD400;margin-bottom:5px}
+.hotspot .tip p{margin:0;font-size:.76rem;line-height:1.55;font-weight:500;color:rgba(255,255,255,.72)}
+.hotspot .tip::after{content:'';position:absolute;top:100%;left:50%;margin-left:-6px;border:6px solid transparent;border-top-color:rgba(10,12,18,.94)}
+.hotspot.active .tip{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1023px){.hotspots{display:none}}
+.scroll-cue{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.4);font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.scroll-cue i{display:block;width:1px;height:34px;background:linear-gradient(180deg,rgba(255,255,255,.5),transparent);animation:cue 2.4s infinite}
+@keyframes cue{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+@media(max-width:900px){.scroll-cue{display:none}}
+
+/* ============ MARQUEE ============ */
+.marquee{background:#FFD400;color:#07080D;padding:17px 0;overflow:hidden;border-top:1px solid rgba(0,0,0,.1);border-bottom:1px solid rgba(0,0,0,.1)}
+.marquee-track{display:flex;gap:52px;white-space:nowrap;width:max-content;animation:marquee 38s linear infinite;padding-right:52px}
+.marquee-track span{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1rem;letter-spacing:.02em;text-transform:uppercase;opacity:.82;display:flex;align-items:center;gap:52px}
+.marquee-track span::after{content:'';width:6px;height:6px;border-radius:50%;background:#07080D;opacity:.5}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ============ SECTIONS ============ */
+.sec{position:relative;padding:clamp(68px,8.5vw,130px) 0;overflow:hidden}
+.sec-light{background:#F4F5F7}
+.sec-dark{background:#07080D}
+.sec-dark::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(70% 55% at 82% 0%,rgba(255,212,0,.08),transparent 62%),radial-gradient(65% 55% at 2% 100%,rgba(27,91,255,.14),transparent 62%)}
+.sec > *{position:relative;z-index:1}
+.sec-head{max-width:860px;margin-bottom:clamp(34px,4.5vw,60px)}
+.sec-head h2{margin:16px 0 18px}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head.center .lead{margin-inline:auto}
+
+.card{background:#fff;border:1px solid rgba(7,8,13,.07);border-radius:26px;box-shadow:0 26px 60px -44px rgba(7,8,13,.5);transition:transform .4s cubic-bezier(.2,.7,.3,1),box-shadow .4s,border-color .4s}
+.card:hover{transform:translateY(-5px);box-shadow:0 40px 80px -50px rgba(7,8,13,.6);border-color:rgba(7,8,13,.13)}
+.gcard{background:linear-gradient(155deg,rgba(255,255,255,.09),rgba(255,255,255,.022));border:1px solid rgba(255,255,255,.12);border-radius:26px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.gcard:hover{border-color:rgba(255,255,255,.24)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.2,.7,.3,1) var(--d,0s),transform .85s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ DASHBOARD ============ */
+.dash-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,68px);align-items:center}
+@media(max-width:960px){.dash-grid{grid-template-columns:1fr}}
+.dash-feats{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.dash-feats li{display:flex;gap:16px;align-items:flex-start;padding:18px 20px;border-radius:20px;background:#fff;border:1px solid rgba(7,8,13,.07);box-shadow:0 18px 44px -40px rgba(7,8,13,.6);transition:transform .35s,box-shadow .35s}
+.dash-feats li:hover{transform:translateX(4px);box-shadow:0 26px 54px -42px rgba(7,8,13,.75)}
+.dash-feats .ic{width:42px;height:42px;flex:none;border-radius:13px;display:grid;place-items:center;background:#07080D;color:#FFD400;font-weight:900}
+.dash-feats b{display:block;font-weight:800;letter-spacing:-.015em;font-size:1rem;margin-bottom:3px}
+.dash-feats p{margin:0;font-size:.85rem;line-height:1.55;color:rgba(7,8,13,.58)}
+.phone{width:min(400px,100%);margin-inline:auto;border-radius:46px;background:linear-gradient(160deg,#151922,#080a10);border:1px solid rgba(255,255,255,.16);padding:13px;box-shadow:0 60px 110px -60px rgba(7,8,13,.9),0 0 0 1px rgba(255,255,255,.04) inset}
+.phone-screen{border-radius:36px;background:#0A0C12;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.pp{padding:16px 16px 20px;display:grid;gap:13px}
+.pp-top{display:flex;justify-content:space-between;align-items:center}
+.pp-live{display:flex;align-items:center;gap:7px;font-size:.63rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+.pp-live i{width:6px;height:6px;border-radius:50%;background:#37E46F;display:block;animation:pulse 2s infinite}
+.pp-time{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.45);font-variant-numeric:tabular-nums}
+.pp-map{border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.07);background:#0B0E15}
+.pp-map svg{width:100%;height:auto;display:block}
+.pp-eta{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:13px 15px;border-radius:18px;background:rgba(255,212,0,.09);border:1px solid rgba(255,212,0,.25)}
+.pp-eta-num{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.75rem;letter-spacing:-.04em;color:#FFD400;line-height:1}
+.pp-eta-num span{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,212,0,.75);margin-left:5px}
+.pp-eta-sub{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.55);margin-top:5px}
+.pp-bar{width:86px;height:6px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;flex:none}
+.pp-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFD400,#FF9E00);transition:width .8s cubic-bezier(.2,.7,.3,1)}
+.pp-driver{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}
+.avatar{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:900;font-size:.8rem;letter-spacing:.02em;background:linear-gradient(150deg,#FFE45C,#FFB800);color:#07080D}
+.pp-name{font-weight:800;font-size:.86rem;letter-spacing:-.01em}
+.pp-meta{font-size:.68rem;color:rgba(255,255,255,.5);font-weight:600;margin-top:2px}
+.pp-actions{margin-left:auto;display:flex;gap:6px}
+.pp-actions button{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:7px 11px;border-radius:99px;transition:.25s}
+.pp-actions button:hover{background:#FFD400;color:#07080D;border-color:transparent}
+.pp-event{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border-radius:18px;background:rgba(55,228,111,.08);border:1px solid rgba(55,228,111,.22)}
+.pp-event .tick{width:22px;height:22px;border-radius:50%;background:#37E46F;color:#04220f;display:grid;place-items:center;font-size:.7rem;font-weight:900;flex:none}
+.pp-event b{display:block;font-size:.8rem;font-weight:800}
+.pp-event span{font-size:.66rem;color:rgba(255,255,255,.5);font-weight:600}
+
+/* ============ LIVE MAP ============ */
+.live-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:22px}
+@media(max-width:1000px){.live-grid{grid-template-columns:1fr}}
+.mapcard{padding:14px;border-radius:28px}
+.mapwrap{position:relative;border-radius:20px;overflow:hidden;background:#0A0D14;border:1px solid rgba(255,255,255,.08)}
+.mapwrap svg{width:100%;height:auto;display:block}
+.map-eta{position:absolute;left:16px;bottom:16px;right:16px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:18px;background:rgba(9,11,17,.86);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.map-eta .big{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.9rem;letter-spacing:-.045em;color:#FFD400;line-height:1;font-variant-numeric:tabular-nums}
+.map-eta .big span{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,212,0,.7);margin-left:6px}
+.map-eta .sub{font-size:.7rem;font-weight:600;color:rgba(255,255,255,.55);margin-top:6px}
+.map-eta .live-tag{display:inline-flex;align-items:center;gap:7px;font-size:.62rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.8);padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)}
+.map-eta .live-tag i{width:6px;height:6px;border-radius:50%;background:#FF4D4D;animation:pulse 1.6s infinite}
+.tiles{display:grid;gap:14px}
+.tile{padding:22px;border-radius:22px}
+.tile b{font-family:'Inter Tight',sans-serif;font-size:2rem;font-weight:900;letter-spacing:-.04em;display:block;color:#FFD400}
+.tile span{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.tile p{margin:9px 0 0;font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.6)}
+
+/* ============ STEPS ============ */
+.steps{position:relative;padding-left:52px;margin:0;list-style:none}
+.steps::before{content:'';position:absolute;left:17px;top:14px;bottom:20px;width:2px;background:rgba(7,8,13,.09);border-radius:2px}
+.steps-progress{position:absolute;left:17px;top:14px;width:2px;height:0;background:linear-gradient(180deg,#FFD400,#1B5BFF);border-radius:2px;transition:height .7s cubic-bezier(.2,.7,.3,1)}
+.step{position:relative;padding:13px 0 21px;opacity:.4;transition:opacity .6s}
+.step.done{opacity:1}
+.step .dot{position:absolute;left:-52px;top:14px;width:36px;height:36px;border-radius:50%;background:#fff;border:2px solid rgba(7,8,13,.12);display:grid;place-items:center;font-size:.78rem;font-weight:900;color:rgba(7,8,13,.35);transition:.5s cubic-bezier(.2,.7,.3,1)}
+.step.done .dot{background:#07080D;border-color:#07080D;color:#FFD400;transform:scale(1.06)}
+.step .tt{font-size:.68rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#1B5BFF}
+.step b{display:block;font-weight:800;font-size:1.02rem;letter-spacing:-.02em;margin:5px 0 3px}
+.step p{margin:0;font-size:.85rem;line-height:1.55;color:rgba(7,8,13,.58)}
+
+/* ============ SAFETY ============ */
+.safety-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media(max-width:980px){.safety-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.safety-grid{grid-template-columns:1fr}}
+.sfcard{padding:24px;cursor:pointer;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.2,.7,.3,1),border-color .4s,background .4s}
+.sfcard:hover{transform:translateY(-4px)}
+.sfcard.open{background:linear-gradient(155deg,rgba(255,212,0,.14),rgba(255,255,255,.03));border-color:rgba(255,212,0,.4)}
+.sfcard .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);margin-bottom:18px;color:#FFD400}
+.sfcard h3{margin:0 0 8px}
+.sfcard .short{margin:0;font-size:.85rem;line-height:1.6;color:rgba(255,255,255,.6)}
+.sfcard .more{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.2,.7,.3,1),opacity .45s,margin .45s;opacity:0;margin-top:0}
+.sfcard.open .more{max-height:280px;opacity:1;margin-top:10px}
+.sfcard .more p{margin:0 0 8px;font-size:.82rem;line-height:1.65;color:rgba(255,255,255,.72)}
+.sfcard .pill{display:inline-flex;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:6px 11px;border-radius:99px;background:rgba(255,212,0,.16);color:#FFD400;border:1px solid rgba(255,212,0,.28)}
+.sfcard .plus{position:absolute;top:22px;right:22px;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:.9rem;font-weight:800;color:rgba(255,255,255,.6);transition:.35s}
+.sfcard.open .plus{transform:rotate(45deg);background:#FFD400;color:#07080D;border-color:transparent}
+
+/* ============ ROUTES ============ */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px}
+.chip{padding:9px 16px;border-radius:99px;border:1px solid rgba(7,8,13,.14);background:transparent;font-size:.82rem;font-weight:700;color:rgba(7,8,13,.62);transition:.3s}
+.chip:hover{border-color:rgba(7,8,13,.4);color:#07080D}
+.chip.active{background:#07080D;border-color:#07080D;color:#FFD400}
+.routes-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media(max-width:1080px){.routes-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.routes-grid{grid-template-columns:1fr}}
+.rt{padding:24px;display:flex;flex-direction:column;gap:14px}
+.rt .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.rt h3{margin:0}
+.rt .code{font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(7,8,13,.42);margin-top:6px}
+.seats{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:99px;background:rgba(27,91,255,.1);color:#1B5BFF;white-space:nowrap}
+.seats.low{background:rgba(255,90,60,.12);color:#E5401C}
+.rt .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 0;border-top:1px solid rgba(7,8,13,.08);border-bottom:1px solid rgba(7,8,13,.08)}
+.rt .meta b{display:block;font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.15rem;letter-spacing:-.03em}
+.rt .meta span{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(7,8,13,.42)}
+.rt .price{display:flex;align-items:baseline;gap:7px;font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.04em}
+.rt .price small{font-size:.68rem;font-weight:700;color:rgba(7,8,13,.45);letter-spacing:.04em}
+.rt .stops{font-size:.8rem;line-height:1.85;color:rgba(7,8,13,.58)}
+.rt .stops s{text-decoration:none;display:flex;align-items:center;gap:8px}
+.rt .stops s::before{content:'';width:6px;height:6px;border-radius:50%;background:#FFD400;flex:none;box-shadow:0 0 0 3px rgba(255,212,0,.2)}
+
+/* ============ DRIVERS ============ */
+.drv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media(max-width:1080px){.drv-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.drv-grid{grid-template-columns:1fr}}
+.drv{padding:24px;text-align:center;transition:transform .4s cubic-bezier(.2,.7,.3,1),border-color .4s}
+.drv:hover{transform:translateY(-5px);border-color:rgba(255,212,0,.35)}
+.drv .av{width:74px;height:74px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.35rem;letter-spacing:-.02em;background:linear-gradient(150deg,#FFE45C,#FFB800);color:#07080D;box-shadow:0 18px 34px -20px rgba(255,212,0,.9)}
+.drv h3{margin:0 0 4px}
+.drv .role{font-size:.7rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+.drv .stars{color:#FFD400;font-size:.85rem;letter-spacing:.12em;margin:14px 0 6px}
+.drv .langs{font-size:.78rem;color:rgba(255,255,255,.6)}
+.verified{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:rgba(55,228,111,.12);color:#37E46F;border:1px solid rgba(55,228,111,.28)}
+
+/* ============ PRICING ============ */
+.toggle{display:inline-flex;padding:5px;border-radius:99px;background:#fff;border:1px solid rgba(7,8,13,.1);margin:0 auto 40px;box-shadow:0 14px 34px -30px rgba(7,8,13,.8)}
+.toggle button{border:none;background:transparent;padding:11px 22px;border-radius:99px;font-size:.85rem;font-weight:800;color:rgba(7,8,13,.5);transition:.3s;letter-spacing:-.01em}
+.toggle button.active{background:#07080D;color:#FFD400}
+.toggle em{font-style:normal;font-size:.62rem;font-weight:800;color:#1B5BFF;margin-left:6px;letter-spacing:.06em}
+.plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+@media(max-width:900px){.plan-grid{grid-template-columns:1fr}}
+.plan{padding:30px;display:flex;flex-direction:column;gap:20px;position:relative}
+.plan.pop{background:#07080D;color:#fff;border-color:#07080D;box-shadow:0 50px 90px -50px rgba(7,8,13,.9)}
+.plan.pop .muted{color:rgba(255,255,255,.55)}
+.plan.pop .amt{color:#FFD400}
+.plan .tag{position:absolute;top:-13px;left:30px;background:#FFD400;color:#07080D;font-size:.62rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;padding:7px 13px;border-radius:99px}
+.plan h3{margin:0}
+.plan .muted{font-size:.84rem;line-height:1.55;color:rgba(7,8,13,.55);margin:0}
+.amt{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.4rem,4vw,3.2rem);letter-spacing:-.05em;line-height:1}
+.amt small{font-size:.8rem;font-weight:700;letter-spacing:.06em;color:rgba(7,8,13,.42)}
+.plan.pop .amt small{color:rgba(255,255,255,.5)}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+.plan li{display:flex;gap:11px;align-items:flex-start;font-size:.86rem;line-height:1.45}
+.plan li i{width:18px;height:18px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(27,91,255,.12);color:#1B5BFF;font-size:.6rem;font-weight:900;font-style:normal;margin-top:1px}
+.plan.pop li i{background:rgba(255,212,0,.18);color:#FFD400}
+
+/* ============ TESTIMONIALS ============ */
+.tst-wrap{position:relative;overflow:hidden}
+.tst-track{display:flex;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.tst{min-width:100%;padding:0 4px}
+.tst-card{padding:clamp(26px,4vw,52px);border-radius:30px}
+.tst-q{font-family:'Inter Tight',sans-serif;font-weight:800;font-size:clamp(1.25rem,2.6vw,2.05rem);line-height:1.28;letter-spacing:-.03em;margin:0 0 28px;max-width:24ch}
+.tst-who{display:flex;align-items:center;gap:14px}
+.tst-who .avatar{background:rgba(255,255,255,.09);color:#FFD400}
+.tst-who b{display:block;font-size:.92rem;font-weight:800}
+.tst-who span{font-size:.74rem;color:rgba(255,255,255,.5);font-weight:600}
+.tst-ctrl{display:flex;gap:10px;align-items:center;margin-top:26px}
+.tst-ctrl button{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#fff;font-size:1rem;transition:.3s}
+.tst-ctrl button:hover{background:#FFD400;color:#07080D;border-color:transparent}
+.dots{display:flex;gap:7px;margin-left:8px}
+.dots i{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.24);cursor:pointer;transition:.35s}
+.dots i.on{width:26px;background:#FFD400}
+
+/* ============ FAQ ============ */
+.faq{display:grid;gap:12px;max-width:900px;margin-inline:auto}
+.fq{background:#fff;border:1px solid rgba(7,8,13,.08);border-radius:20px;overflow:hidden;transition:box-shadow .4s,border-color .4s}
+.fq:hover{border-color:rgba(7,8,13,.16);box-shadow:0 24px 50px -44px rgba(7,8,13,.8)}
+.fq.open{box-shadow:0 30px 60px -48px rgba(7,8,13,.9);border-color:rgba(7,8,13,.18)}
+.fq-h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:18px;text-align:left;padding:22px 24px;background:none;border:none;font-size:clamp(.95rem,1.5vw,1.08rem);font-weight:800;letter-spacing:-.02em;color:#07080D}
+.fq-h .pm{width:28px;height:28px;flex:none;border-radius:50%;background:#07080D;color:#FFD400;display:grid;place-items:center;font-weight:900;font-size:.9rem;transition:transform .4s}
+.fq.open .fq-h .pm{transform:rotate(45deg)}
+.fq-b{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.2,.7,.3,1)}
+.fq-b p{margin:0;padding:0 24px 24px;font-size:.9rem;line-height:1.7;color:rgba(7,8,13,.6)}
+
+/* ============ CONTACT ============ */
+.ct-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+@media(max-width:900px){.ct-grid{grid-template-columns:1fr}}
+.form-card{padding:clamp(24px,3.4vw,40px);border-radius:30px}
+.fld{display:grid;gap:8px;margin-bottom:16px}
+.fld label{font-size:.68rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.fld input,.fld select,.fld textarea{width:100%;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:.92rem;outline:none;transition:border-color .3s,background .3s}
+.fld textarea{resize:vertical;min-height:110px}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#FFD400;background:rgba(255,212,0,.06)}
+.fld select option{background:#0E1018;color:#fff}
+.fld.err input,.fld.err select,.fld.err textarea{border-color:#FF5A3C;background:rgba(255,90,60,.07)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.form-msg{margin-top:16px;padding:14px 16px;border-radius:14px;font-size:.86rem;font-weight:600;display:none}
+.form-msg.ok{display:block;background:rgba(55,228,111,.12);border:1px solid rgba(55,228,111,.3);color:#7CF2A8}
+.info-card{padding:26px;border-radius:26px;display:grid;gap:16px}
+.info-row{display:flex;gap:14px;align-items:flex-start}
+.info-row .ic{width:40px;height:40px;flex:none;border-radius:12px;background:rgba(255,212,0,.12);border:1px solid rgba(255,212,0,.25);display:grid;place-items:center;color:#FFD400}
+.info-row b{display:block;font-size:.9rem;font-weight:800;margin-bottom:3px}
+.info-row span{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.5}
+
+/* ============ FOOTER ============ */
+.footer{background:#04050a;padding:64px 0 30px;border-top:1px solid rgba(255,255,255,.08)}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px}
+@media(max-width:860px){.ft-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.ft-grid{grid-template-columns:1fr}}
+.ft-grid h4{font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);margin:0 0 16px}
+.ft-grid a{display:block;font-size:.86rem;color:rgba(255,255,255,.66);padding:5px 0;transition:color .25s,transform .25s}
+.ft-grid a:hover{color:#FFD400;transform:translateX(3px)}
+.ft-p{font-size:.85rem;line-height:1.65;color:rgba(255,255,255,.5);max-width:34ch;margin:16px 0 0}
+.ft-bot{margin-top:48px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:.76rem;color:rgba(255,255,255,.4)}
+.ft-bot .socs{display:flex;gap:9px}
+.ft-bot .socs a{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;padding:0;color:rgba(255,255,255,.6)}
+.ft-bot .socs a:hover{background:#FFD400;color:#07080D;border-color:transparent}
+
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{animation:none}
+  .scroll-cue i{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="progress"></div>
+
+<!-- ================= NAV ================= -->
+<header class="site-nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#07080D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 16V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v8"/><path d="M4 16h16"/><circle cx="7.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/>
+        </svg>
+      </span>
+      <span class="brand-name">SCHOOL<em>RIDE</em></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#tracking">Tracking</a>
+      <a href="#safety">Safety</a>
+      <a href="#routes">Routes</a>
+      <a href="#drivers">Drivers</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#contact" class="btn btn-yellow btn-sm">Explore Demo</a>
+      <button class="burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="wrap">
+    <a href="#dashboard">Dashboard</a>
+    <a href="#tracking">Tracking</a>
+    <a href="#safety">Safety</a>
+    <a href="#routes">Routes</a>
+    <a href="#drivers">Drivers</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" style="color:#FFD400">Book a demo →</a>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <canvas id="scene"></canvas>
+  <div class="hero-vig"></div>
+  <div class="hotspots" id="hotspots"></div>
+
+  <div class="hero-inner">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="hero-badge"><i class="pulse"></i> Live · 1,284 vans on route</span>
+        <h1 class="disp hero-h1">
+          <span class="w1">Safe.</span>
+          <span class="w2">Connected.</span>
+          <span class="w3">On Time.</span>
+        </h1>
+        <p class="hero-sub">School transportation rebuilt around parents — verified drivers, real-time GPS, boarding confirmation and ETAs you can actually plan your morning around.</p>
+        <div class="hero-cta">
+          <a href="#dashboard" class="btn btn-yellow">Explore Demo <span class="ar">→</span></a>
+          <button class="btn btn-ghost" id="actionBtn">See safety in action</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><b data-count="99.98" data-suffix="%">0%</b><span>On-time arrivals</span></div>
+          <div class="hstat"><b data-count="2.4" data-suffix="M">0M</b><span>Rides per term</span></div>
+          <div class="hstat"><b data-count="4.9" data-suffix="★">0★</b><span>Parent rating</span></div>
+          <div class="hstat"><b>24/7</b><span>Live support</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><i></i> Scroll</div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Northgate Academy</span><span>Lincoln Elementary</span><span>St. Aidan's Prep</span><span>Brightfield ISD</span><span>Meadowbrook Charter</span><span>Hillcrest High</span><span>Sunnyvale Montessori</span><span>Riverton Schools</span>
+    <span>Northgate Academy</span><span>Lincoln Elementary</span><span>St. Aidan's Prep</span><span>Brightfield ISD</span><span>Meadowbrook Charter</span><span>Hillcrest High</span><span>Sunnyvale Montessori</span><span>Riverton Schools</span>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<section class="sec sec-light" id="dashboard">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">01 — Parent Dashboard</span>
+      <h2 class="disp">The whole school run,<br>in one screen.</h2>
+      <p class="lead lead-dark">Every ride streams into the SCHOOLRIDE parent app — live map, driver card, boarding confirmation and an ETA that updates every 1.2 seconds.</p>
+    </div>
+
+    <div class="dash-grid">
+      <ul class="dash-feats">
+        <li class="reveal" style="--d:.02s">
+          <span class="ic">◷</span>
+          <div><b>Minute-accurate live ETA</b><p>Traffic-aware arrival windows, so you leave the house at the right moment — not five minutes early.</p></div>
+        </li>
+        <li class="reveal" style="--d:.09s">
+          <span class="ic">✓</span>
+          <div><b>Boarding & drop-off confirmation</b><p>Seat sensor plus cabin photo confirms your child is on board and safely handed over at the gate.</p></div>
+        </li>
+        <li class="reveal" style="--d:.16s">
+          <span class="ic">☎</span>
+          <div><b>One tap to the driver</b><p>Secure in-app calling and messaging routed through our control room. Numbers stay private, always.</p></div>
+        </li>
+        <li class="reveal" style="--d:.23s">
+          <span class="ic">!</span>
+          <div><b>Delay, traffic & substitution alerts</b><p>If a van is swapped or a road closes, you know before your child does.</p></div>
+        </li>
+      </ul>
+
+      <div class="phone reveal" style="--d:.12s">
+        <div class="phone-screen">
+          <div class="pp">
+            <div class="pp-top">
+              <div class="pp-live"><i></i> Live · Route 12</div>
+              <div class="pp-time" id="phoneClock">07:18</div>
+            </div>
+            <div class="pp-map">
+              <svg viewBox="0 0 400 200" preserveAspectRatio="none" role="img" aria-label="Live route map">
+                <defs>
+                  <pattern id="miniGrid" width="22" height="22" patternUnits="userSpaceOnUse">
+                    <path d="M22 0H0V22" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+                  </pattern>
+                </defs>
+                <rect width="400" height="200" fill="#0B0E15"/>
+                <rect width="400" height="200" fill="url(#miniGrid)"/>
+                <path d="M-10 152 L410 122" stroke="#161b25" stroke-width="16" stroke-linecap="round"/>
+                <path d="M126 -10 L164 210" stroke="#161b25" stroke-width="13"/>
+                <path d="M-10 58 L410 38" stroke="#131822" stroke-width="11"/>
+                <path id="miniRoute" d="M36 176 C 108 166, 128 116, 198 108 S 306 86, 366 44" fill="none" stroke="#FFD400" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="7 9"/>
+                <circle cx="366" cy="44" r="8" fill="#1B5BFF"/>
+                <circle cx="366" cy="44" r="3" fill="#fff"/>
+                <g id="miniVan">
+                  <circle r="11" fill="#FFD400" opacity=".22"/>
+                  <circle r="5.5" fill="#FFD400"/>
+                </g>
+              </svg>
+            </div>
+            <div class="pp-eta">
+              <div>
+                <div class="pp-eta-num" id="phoneEta">6<span>min</span></div>
+                <div class="pp-eta-sub" id="phoneEtaSub">Arriving 07:24 · On time</div>
+              </div>
+              <div class="pp-bar"><i id="phoneBar" style="width:62%"></i></div>
+            </div>
+            <div class="pp-driver">
+              <div class="avatar">MT</div>
+              <div>
+                <div class="pp-name">Marcus T.</div>
+                <div class="pp-meta">Van 12 · 4.98★ · 11 yrs</div>
+              </div>
+              <div class="pp-actions"><button type="button">Call</button><button type="button">Chat</button></div>
+            </div>
+            <div class="pp-event">
+              <span class="tick">✓</span>
+              <div><b>Ava boarded the van</b><span>07:18 · Seatbelt confirmed · Photo saved</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LIVE LOCATION ================= -->
+<section class="sec sec-dark" id="location">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">02 — Live Location & ETA</span>
+      <h2 class="disp">Follow every metre. Live.</h2>
+      <p class="lead">Dual GNSS with road-snapping delivers a position every 1.2 seconds at 1.5m accuracy — even between tall buildings and under tree cover.</p>
+    </div>
+
+    <div class="live-grid">
+      <div class="mapcard gcard reveal">
+        <div class="mapwrap">
+          <svg viewBox="0 0 900 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Live vehicle location map">
+            <defs>
+              <pattern id="liveGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M30 0H0V30" fill="none" stroke="rgba(255,255,255,.045)" stroke-width="1"/>
+              </pattern>
+              <linearGradient id="mapFade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0C1018"/>
+                <stop offset="100%" stop-color="#080B11"/>
+              </linearGradient>
+            </defs>
+            <rect width="900" height="460" fill="url(#mapFade)"/>
+            <rect width="900" height="460" fill="url(#liveGrid)"/>
+            <g stroke="#151a24" stroke-linecap="round" fill="none">
+              <path d="M-20 340 L920 300" stroke-width="22"/>
+              <path d="M-20 150 L920 128" stroke-width="16"/>
+              <path d="M220 -20 L250 480" stroke-width="18"/>
+              <path d="M640 -20 L600 480" stroke-width="20"/>
+              <path d="M-20 60 L920 210" stroke-width="12"/>
+            </g>
+            <g fill="#111621">
+              <rect x="60" y="180" width="120" height="80" rx="8"/>
+              <rect x="300" y="180" width="90" height="60" rx="6"/>
+              <rect x="300" y="370" width="140" height="70" rx="8"/>
+              <rect x="680" y="190" width="130" height="90" rx="8"/>
+              <rect x="700" y="330" width="80" height="60" rx="6"/>
+              <rect x="90" y="380" width="70" height="50" rx="6"/>
+            </g>
+            <path id="liveTrail" d="M70 400 C 180 380, 200 300, 300 288 S 430 330, 500 260 S 590 160, 700 150 L 800 96"
+                  fill="none" stroke="#FFD400" stroke-width="6" stroke-linecap="round"/>
+            <path d="M70 400 C 180 380, 200 300, 300 288 S 430 330, 500 260 S 590 160, 700 150 L 800 96"
+                  fill="none" stroke="rgba(255,255,255,.16)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 14"/>
+            <g id="liveVan">
+              <circle r="26" fill="#FFD400" opacity=".14"/>
+              <circle r="15" fill="#FFD400" opacity=".22"/>
+              <circle r="9" fill="#FFD400"/>
+              <circle r="3.4" fill="#07080D"/>
+            </g>
+            <g transform="translate(800,96)">
+              <circle r="22" fill="#1B5BFF" opacity=".18"/>
+              <circle r="11" fill="#1B5BFF"/>
+              <path d="M-5 -1 L-1 4 L6 -5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <text x="800" y="140" fill="rgba(255,255,255,.5)" font-size="15" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">Northgate Academy</text>
+          </svg>
+
+          <div class="map-eta">
+            <div>
+              <div class="big"><span id="liveEta">6</span><span>min</span></div>
+              <div class="sub" id="liveEtaSub">Next stop · Oakwood &amp; 4th · 2.1 km away</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+              <span class="live-tag"><i></i> Streaming live</span>
+              <span class="live-tag" style="background:rgba(255,212,0,.12);border-color:rgba(255,212,0,.3);color:#FFD400" id="liveSpeed">28 km/h · Van 12</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tiles">
+        <div class="tile gcard reveal" style="--d:.06s"><b>1.2s</b><span>Refresh rate</span><p>Position updates pushed to the parent app faster than a traffic light changes.</p></div>
+        <div class="tile gcard reveal" style="--d:.12s"><b>±1.5m</b><span>GPS accuracy</span><p>RTK-corrected positioning with inertial backup in tunnels and covered roads.</p></div>
+        <div class="tile gcard reveal" style="--d:.18s"><b>99.99%</b><span>Telemetry uptime</span><p>Redundant LTE-M and satellite fallback across 41 regional networks.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRACKING ================= -->
+<section class="sec sec-light" id="tracking">
+  <div class="wrap">
+    <div class="dash-grid" style="align-items:start">
+      <div>
+        <div class="sec-head reveal" style="margin-bottom:30px">
+          <span class="eyebrow">03 — Pickup &amp; Drop-off</span>
+          <h2 class="disp">Pickup to drop-off,<br>timestamped.</h2>
+          <p class="lead lead-dark">Six verified checkpoints per journey, each one pushed to every guardian on the account — with photos where it matters.</p>
+        </div>
+        <button class="btn btn-dark reveal" id="replayBtn">Replay journey <span class="ar">↻</span></button>
+      </div>
+
+      <ol class="steps reveal" id="steps" style="--d:.08s">
+        <span class="steps-progress" id="stepsProgress"></span>
+        <li class="step" data-step><span class="dot">01</span><div class="tt">06:52</div><b>Driver assigned</b><p>Marcus T. · Van 12 · Ford Transit · background check valid to 2027.</p></li>
+        <li class="step" data-step><span class="dot">02</span><div class="tt">07:04</div><b>Van departs depot</b><p>Pre-trip inspection passed: tyres, brakes, lights, first-aid kit, 2 fire extinguishers.</p></li>
+        <li class="step" data-step><span class="dot">03</span><div class="tt">07:16</div><b>Approaching your stop</b><p>400m away — a push notification and a phone call give you a two-minute head start.</p></li>
+        <li class="step" data-step><span class="dot">04</span><div class="tt">07:18</div><b>Ava boarded</b><p>Seat sensor + cabin camera confirm your child is seated with the belt fastened.</p></li>
+        <li class="step" data-step><span class="dot">05</span><div class="tt">07:34</div><b>Arrived at Northgate Academy</b><p>Gate check-in logged against the school register in real time.</p></li>
+        <li class="step" data-step><span class="dot">06</span><div class="tt">07:35</div><b>Drop-off confirmed</b><p>Sent to 2 guardians. Journey closed with a full audit trail.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SAFETY ================= -->
+<section class="sec sec-dark" id="safety">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">04 — Safety Features</span>
+      <h2 class="disp">Safety engineered into<br>every kilometre.</h2>
+      <p class="lead">Tap any card to see how it works. Every system is independent, redundant and monitored by a human in our control room.</p>
+    </div>
+
+    <div class="safety-grid" id="safetyGrid">
+      <article class="sfcard gcard reveal" style="--d:.02s">
+        <span class="plus">+</span>
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l7 4v5c0 4.4-3 8.3-7 9-4-0.7-7-4.6-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <h3 class="disp">Verified drivers</h3>
+        <p class="short">Enhanced background checks, 40 hours of annual training and continuous licence monitoring.</p>
+        <div class="more">
+          <p>Every driver passes DBS / FBI-level screening, a driving-record audit and a psychometric safety assessment before their first route.</p>
+          <p style="margin-bottom:0">Licences, medicals and certifications are re-checked automatically every 30 days.</p>
+        </div>
+      </article>
+
+      <article class="sfcard gcard reveal" style="--d:.06s">
+        <span class="plus">+</span>
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg></span>
+        <h3 class="disp">Live cabin cameras</h3>
+        <p class="short">Four wide-angle HD cameras cover the aisle, door and exterior — encrypted end to end.</p>
+        <div class="more">
+          <p>Footage is encrypted at rest, auto-purged after 30 days, and only accessible to authorised safeguarding officers.</p>
+          <p style="margin-bottom:0">AI flags behaviour events such as standing in a moving vehicle within 1 second.</p>
+        </div>
+      </article>
+
+      <article class="sfcard gcard reveal" style="--d:.1s">
+        <span class="plus">+</span>
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4h12v6a6 6 0 0 1-12 0V4z"/><path d="M6 9H4a2 2 0 0 0 0 4h2"/><path d="M18 9h2a2 2 0 0 1 0 4h-2"/></svg></span>
+        <h3 class="disp">Seatbelt &amp; seat sensors</h3>
+        <p class="short">Every seat reports occupancy and belt status to the driver console and the parent app.</p>
+        <div class="more">
+          <p>An unbuckled seat triggers a gentle chime and a dash indicator; unresolved after 20 seconds, the control room is alerted.</p>
+          <p style="margin-bottom:0">Seat manifests are matched against the roster before the doors close.</p>
+        </div>
+      </article>
+
+      <article class="sfcard gcard reveal" style="--d:.14s">
+        <span class="plus">+</span>
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg></span>
+        <h3 class="disp">Dual GPS + LTE-M</h3>
+        <p class="short">Two independent positioning systems with satellite fallback for rural routes.</p>
+        <div class="more">
+          <p>Our telematics unit fuses GNSS, inertial dead-reckoning and vehicle CAN-bus data for uninterrupted tracking.</p>
+          <p style="margin-bottom:0">If one link drops, the second takes over in under 400 milliseconds — silently.</p>
+        </div>
+      </article>
+
+      <article class="sfcard gcard reveal" style="--d:.18s">
+        <span class="plus">+</span>
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span>
+        <h3 class="disp">Panic button &amp; 24/7 control room</h3>
+        <p class="short">One press opens a live audio channel and dispatches the nearest response unit.</p>
+        <div class="more">
+          <p>Median control-room answer time is 4.1 seconds, with police and school escalation on a single console.</p>
+          <p style="margin-bottom:0">The driver never has to explain the situation twice — the operator already has the live map.</p>
+        </div>
+      </article>
+
+      <article class="sfcard gcard reveal" style="--d:.22s">
+        <span class="plus">+</span>
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18V7a2 2 0 0 1 2-2h8l4 4v9"/><path d="M4 18h16"/><circle cx="8" cy="19" r="1.6"/><circle cx="16" cy="19" r="1.6"/></svg></span>
+        <h3 class="disp">Speed &amp; route compliance</h3>
+        <p class="short">Geofenced speed limits, harsh-braking scoring and automatic substitution if a driver falls below standard.</p>
+        <div class="more">
+          <p>Each van is scored daily on 14 safety metrics; anything below 96% triggers an operational review.</p>
+          <p style="margin-bottom:0">Route deviations over 150m raise an immediate alert to the control room.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROUTES ================= -->
+<section class="sec sec-light" id="routes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">05 — Routes</span>
+      <h2 class="disp">Routes that fit<br>your morning.</h2>
+      <p class="lead lead-dark">Optimised stop sequences, live seat availability and fare caps. Change a route any time — no fees, no forms.</p>
+    </div>
+
+    <div class="chips reveal" id="chips">
+      <button class="chip active" data-filter="all" type="button">All routes</button>
+      <button class="chip" data-filter="elementary" type="button">Elementary</button>
+      <button class="chip" data-filter="middle" type="button">Middle</button>
+      <button class="chip" data-filter="high" type="button">High school</button>
+    </div>
+
+    <div class="routes-grid" id="routesGrid">
+      <article class="rt card reveal" data-cat="elementary" style="--d:.02s">
+        <div class="top">
+          <div><h3 class="disp">Northgate Loop</h3><div class="code">Route 12 · Van 12</div></div>
+          <span class="seats">6 seats left</span>
+        </div>
+        <div class="meta"><div><b>12</b><span>Stops</span></div><div><b>34m</b><span>Duration</span></div><div><b>8.4</b><span>km</span></div></div>
+        <div class="stops"><s>Oakwood &amp; 4th St</s><s>Maple Grove Park</s><s>Northgate Academy</s></div>
+        <div class="price">$49 <small>/ month</small></div>
+      </article>
+
+      <article class="rt card reveal" data-cat="middle" style="--d:.08s">
+        <div class="top">
+          <div><h3 class="disp">Riverside Express</h3><div class="code">Route 18 · Van 07</div></div>
+          <span class="seats">3 seats left</span>
+        </div>
+        <div class="meta"><div><b>9</b><span>Stops</span></div><div><b>26m</b><span>Duration</span></div><div><b>11.2</b><span>km</span></div></div>
+        <div class="stops"><s>Riverside Terrace</s><s>Mill Bridge</s><s>Westbrook Middle</s></div>
+        <div class="price">$59 <small>/ month</small></div>
+      </article>
+
+      <article class="rt card reveal" data-cat="high" style="--d:.14s">
+        <div class="top">
+          <div><h3 class="disp">Hillcrest Direct</h3><div class="code">Route 04 · Van 21</div></div>
+          <span class="seats low">1 seat left</span>
+        </div>
+        <div class="meta"><div><b>7</b><span>Stops</span></div><div><b>21m</b><span>Duration</span></div><div><b>7.9</b><span>km</span></div></div>
+        <div class="stops"><s>Hillcrest Rise</s><s>Beacon Fields</s><s>Hillcrest High</s></div>
+        <div class="price">$45 <small>/ month</small></div>
+      </article>
+
+      <article class="rt card reveal" data-cat="elementary" style="--d:.2s">
+        <div class="top">
+          <div><h3 class="disp">St. Aidan's Circuit</h3><div class="code">Route 27 · Van 15</div></div>
+          <span class="seats">9 seats left</span>
+        </div>
+        <div class="meta"><div><b>14</b><span>Stops</span></div><div><b>41m</b><span>Duration</span></div><div><b>13.6</b><span>km</span></div></div>
+        <div class="stops"><s>Cathedral Way</s><s>Elm Court</s><s>St. Aidan's Prep</s></div>
+        <div class="price">$65 <small>/ month</small></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DRIVERS ================= -->
+<section class="sec sec-dark" id="drivers">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">06 — Drivers</span>
+      <h2 class="disp">The people behind<br>the wheel.</h2>
+      <p class="lead">An average of 9.8 years behind the wheel and a 4.96 safety rating. Every one of them is a permanent SCHOOLRIDE employee — never a gig contractor.</p>
+    </div>
+
+    <div class="drv-grid">
+      <article class="drv gcard reveal" style="--d:.02s">
+        <div class="av">MT</div>
+        <h3 class="disp">Marcus T.</h3>
+        <div class="role">Lead driver · Route 12</div>
+        <div class="stars">★★★★★</div>
+        <div class="langs">English · Spanish</div>
+        <span class="verified">✓ 11 years verified</span>
+      </article>
+      <article class="drv gcard reveal" style="--d:.08s">
+        <div class="av">PS</div>
+        <h3 class="disp">Priya S.</h3>
+        <div class="role">Driver · Route 18</div>
+        <div class="stars">★★★★★</div>
+        <div class="langs">English · Hindi · Punjabi</div>
+        <span class="verified">✓ 8 years verified</span>
+      </article>
+      <article class="drv gcard reveal" style="--d:.14s">
+        <div class="av">DO</div>
+        <h3 class="disp">Daniel O.</h3>
+        <div class="role">Driver · Route 04</div>
+        <div class="stars">★★★★★</div>
+        <div class="langs">English · Portuguese</div>
+        <span class="verified">✓ 6 years verified</span>
+      </article>
+      <article class="drv gcard reveal" style="--d:.2s">
+        <div class="av">AK</div>
+        <h3 class="disp">Aisha K.</h3>
+        <div class="role">Driver · Route 27</div>
+        <div class="stars">★★★★★</div>
+        <div class="langs">English · Arabic · French</div>
+        <span class="verified">✓ 14 years verified</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section class="sec sec-light" id="pricing">
+  <div class="wrap" style="text-align:center">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">07 — Pricing Plans</span>
+      <h2 class="disp">Simple, per-child pricing.</h2>
+      <p class="lead lead-dark" style="max-width:52ch">No booking fees, no surge pricing, cancel any time. Districts get volume rates and a dedicated success manager.</p>
+    </div>
+
+    <div class="toggle reveal" id="planToggle" role="tablist">
+      <button type="button" class="active" data-period="monthly">Monthly</button>
+      <button type="button" data-period="annual">Annual <em>SAVE 20%</em></button>
+    </div>
+
+    <div class="plan-grid" style="text-align:left">
+      <article class="plan card reveal" style="--d:.02s">
+        <h3 class="disp">Essential</h3>
+        <p class="muted">One child, one route, everything you need to stop worrying.</p>
+        <div class="amt"><span class="price-val" data-monthly="12" data-annual="9.60">$12</span><small>/ month</small></div>
+        <ul>
+          <li><i>✓</i> Live GPS tracking &amp; ETA</li>
+          <li><i>✓</i> Boarding &amp; drop-off alerts</li>
+          <li><i>✓</i> Driver profile &amp; secure chat</li>
+          <li><i>✓</i> Email &amp; push support</li>
+        </ul>
+        <a href="#contact" class="btn btn-dark" style="margin-top:auto">Start Essential</a>
+      </article>
+
+      <article class="plan card pop reveal" style="--d:.08s">
+        <span class="tag">Most popular</span>
+        <h3 class="disp">Family</h3>
+        <p class="muted" style="color:rgba(255,255,255,.6)">Up to four children across any routes, with the full safety suite.</p>
+        <div class="amt"><span class="price-val" data-monthly="29" data-annual="23.20">$29</span><small>/ month</small></div>
+        <ul>
+          <li><i>✓</i> Everything in Essential</li>
+          <li><i>✓</i> Up to 4 children included</li>
+          <li><i>✓</i> Cabin photo confirmation</li>
+          <li><i>✓</i> Free route changes, any time</li>
+          <li><i>✓</i> Priority 24/7 phone support</li>
+        </ul>
+        <a href="#contact" class="btn btn-yellow" style="margin-top:auto">Start Family</a>
+      </article>
+
+      <article class="plan card reveal" style="--d:.14s">
+        <h3 class="disp">District</h3>
+        <p class="muted">Fleet-wide operations, safeguarding tools and integrations.</p>
+        <div class="amt">Custom</div>
+        <ul>
+          <li><i>✓</i> Unlimited children &amp; routes</li>
+          <li><i>✓</i> Fleet dashboard &amp; API access</li>
+          <li><i>✓</i> Safeguarding &amp; audit exports</li>
+          <li><i>✓</i> 99.9% uptime SLA</li>
+          <li><i>✓</i> Dedicated onboarding team</li>
+        </ul>
+        <a href="#contact" class="btn btn-dark" style="margin-top:auto">Talk to sales</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="sec sec-dark" id="testimonials">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">08 — Testimonials</span>
+      <h2 class="disp">Trusted by parents<br>and districts alike.</h2>
+    </div>
+
+    <div class="tst-wrap reveal" id="tstWrap">
+      <div class="tst-track" id="tstTrack">
+        <div class="tst"><div class="tst-card gcard">
+          <p class="tst-q">“I stopped refreshing a bus app that never told me anything. Now I get one ping, and I know exactly when to walk out the door.”</p>
+          <div class="tst-who"><div class="avatar">EL</div><div><b>Elena L.</b><span>Parent · Northgate Academy</span></div></div>
+        </div></div>
+        <div class="tst"><div class="tst-card gcard">
+          <p class="tst-q">“The boarding photo changed everything for our family. My son is non-verbal — I can see he's safe before the van leaves the kerb.”</p>
+          <div class="tst-who"><div class="avatar">DR</div><div><b>David R.</b><span>Parent · St. Aidan's Prep</span></div></div>
+        </div></div>
+        <div class="tst"><div class="tst-card gcard">
+          <p class="tst-q">“We moved 4,200 students onto SCHOOLRIDE in six weeks. On-time performance went from 88% to 99.4% in the first term.”</p>
+          <div class="tst-who"><div class="avatar">MJ</div><div><b>Maya J.</b><span>Director of Transport · Brightfield ISD</span></div></div>
+        </div></div>
+        <div class="tst"><div class="tst-card gcard">
+          <p class="tst-q">“Our drivers actually like the system. Fewer phone calls, clearer manifests, and the control room catches problems before we do.”</p>
+          <div class="tst-who"><div class="avatar">TC</div><div><b>Tom C.</b><span>Operations Lead · Meadowbrook Charter</span></div></div>
+        </div></div>
+      </div>
+      <div class="tst-ctrl">
+        <button type="button" id="tstPrev" aria-label="Previous">←</button>
+        <button type="button" id="tstNext" aria-label="Next">→</button>
+        <div class="dots" id="tstDots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec sec-light" id="faq">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">09 — FAQ</span>
+      <h2 class="disp">Questions, answered.</h2>
+    </div>
+
+    <div class="faq" id="faqList">
+      <div class="fq reveal">
+        <button class="fq-h" type="button">How accurate is the live ETA?<span class="pm">+</span></button>
+        <div class="fq-b"><p>Our ETAs blend live traffic, historical route data and the van's actual speed, recalculated every 1.2 seconds. Median error across 2.4 million rides last term was 51 seconds.</p></div>
+      </div>
+      <div class="fq reveal" style="--d:.05s">
+        <button class="fq-h" type="button">Who can see my child's location?<span class="pm">+</span></button>
+        <div class="fq-b"><p>Only guardians you explicitly authorise on the account, and the school's designated transport administrator. Locations are encrypted in transit and at rest, and are never sold or shared with advertisers.</p></div>
+      </div>
+      <div class="fq reveal" style="--d:.1s">
+        <button class="fq-h" type="button">What happens if the van breaks down?<span class="pm">+</span></button>
+        <div class="fq-b"><p>A substitute van is dispatched from the nearest depot — typically within 12 minutes in urban areas. You get an instant alert with the new vehicle, driver and revised ETA. Children stay with the driver until the swap is complete.</p></div>
+      </div>
+      <div class="fq reveal" style="--d:.15s">
+        <button class="fq-h" type="button">Are your drivers employees or contractors?<span class="pm">+</span></button>
+        <div class="fq-b"><p>Every SCHOOLRIDE driver is a permanent employee with benefits, paid training days and a safety bonus tied to their route score. We do not use gig-marketplace labour.</p></div>
+      </div>
+      <div class="fq reveal" style="--d:.2s">
+        <button class="fq-h" type="button">Can I change my route mid-term?<span class="pm">+</span></button>
+        <div class="fq-b"><p>Yes. Route changes are free on the Family plan and take effect the next school day once a seat is confirmed. Essential plan changes are free twice per term.</p></div>
+      </div>
+      <div class="fq reveal" style="--d:.25s">
+        <button class="fq-h" type="button">Do you support children with additional needs?<span class="pm">+</span></button>
+        <div class="fq-b"><p>Yes. We offer trained SEN escorts, one-to-one seating, sensory-friendly vehicles and a handover protocol built with your school's SENCO. Select "additional support" when booking.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="sec sec-dark" id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">10 — Contact</span>
+      <h2 class="disp">Book a 20-minute demo.</h2>
+      <p class="lead">Tell us about your school or your morning run. We'll map your routes and send a live demo link the same day.</p>
+    </div>
+
+    <div class="ct-grid">
+      <form class="form-card gcard reveal" id="demoForm" novalidate>
+        <div class="two">
+          <div class="fld"><label for="fname">Full name</label><input id="fname" name="fname" type="text" placeholder="Elena Lopez" required></div>
+          <div class="fld"><label for="femail">Email</label><input id="femail" name="femail" type="email" placeholder="elena@school.org" required></div>
+        </div>
+        <div class="two">
+          <div class="fld"><label for="frole">I am a</label>
+            <select id="frole" name="frole" required>
+              <option value="">Select one…</option>
+              <option>Parent / guardian</option>
+              <option>School administrator</option>
+              <option>District transport director</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="fld"><label for="fphone">Phone (optional)</label><input id="fphone" name="fphone" type="tel" placeholder="+1 555 0142"></div>
+        </div>
+        <div class="fld"><label for="fmsg">What do you need?</label><textarea id="fmsg" name="fmsg" placeholder="We have 3 children across two schools and need morning coverage…" required></textarea></div>
+        <button class="btn btn-yellow" type="submit" style="width:100%">Request demo <span class="ar">→</span></button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+
+      <div style="display:grid;gap:16px;align-content:start">
+        <div class="info-card gcard reveal" style="--d:.06s">
+          <div class="info-row">
+            <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v14H4z"/><path d="M4 7l8 6 8-6"/></svg></span>
+            <div><b>hello@schoolride.com</b><span>Replies within 2 working hours.</span></div>
+          </div>
+          <div class="info-row">
+            <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg></span>
+            <div><b>+1 (800) 555-RIDE</b><span>Control room open 24/7, 365 days a year.</span></div>
+          </div>
+          <div class="info-row">
+            <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+            <div><b>1800 Transit Way, Suite 400</b><span>Austin, TX 78701 · United States</span></div>
+          </div>
+        </div>
+
+        <div class="tile gcard reveal" style="--d:.12s">
+          <b>4.1s</b><span>Control room answer time</span>
+          <p>Median time to a human voice on the emergency line, measured across every call last quarter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div>
+        <a href="#top" class="brand" style="margin-bottom:6px">
+          <span class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#07080D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 16V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v8"/><path d="M4 16h16"/><circle cx="7.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/>
+            </svg>
+          </span>
+          <span class="brand-name">SCHOOL<em>RIDE</em></span>
+        </a>
+        <p class="ft-p">Modern school transportation with live tracking, verified drivers and a human in the control room 24/7. Serving 1,200+ schools worldwide.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="#dashboard">Parent dashboard</a>
+        <a href="#location">Live location</a>
+        <a href="#tracking">Pickup &amp; drop-off</a>
+        <a href="#safety">Safety features</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#routes">Routes</a>
+        <a href="#drivers">Drivers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div>
+        <h4>Trust</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#safety">Safeguarding</a>
+        <a href="#faq">Privacy policy</a>
+        <a href="#faq">Terms of service</a>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© <span id="year">2025</span> SCHOOLRIDE Ltd. All rights reserved. Demo website.</span>
+      <div class="socs">
+        <a href="#top" aria-label="X">𝕏</a>
+        <a href="#top" aria-label="LinkedIn">in</a>
+        <a href="#top" aria-label="Instagram">◎</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* Optional rounded-box geometry with graceful fallback */
+let RBClass = null;
+try {
+  const mod = await import('three/addons/geometries/RoundedBoxGeometry.js');
+  RBClass = mod.RoundedBoxGeometry;
+} catch (e) { RBClass = null; }
+
+const RB = (w, h, d, r = 0.06, s = 4) => {
+  const rad = Math.max(0.001, Math.min(r, Math.min(w, h, d) / 2 - 0.002));
+  return RBClass ? new RBClass(w, h, d, s, rad) : new THREE.BoxGeometry(w, h, d);
+};
+
+const hero = document.querySelector('.hero');
+const canvas = document.getElementById('scene');
+
+let renderer, scene, camera, van, wheels = [], beacons = [], stopArm;
+let hotspots = [];
+const clock = new THREE.Clock();
+let t = 0, intro = 0;
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+const camPos = new THREE.Vector3(6.4, 3.6, 10.4);
+const camLook = new THREE.Vector3(0.3, 1.35, 0);
+const lookNow = new THREE.Vector3(0.3, 1.35, 0);
+let vanBaseX = 1.6, vanBaseYaw = -0.42, vanBaseScale = 1;
+
+/* ---------------- environment map ---------------- */
+function envTexture() {
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 256;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0.00, '#eaf1fb');
+  grad.addColorStop(0.36, '#a9bed6');
+  grad.addColorStop(0.50, '#5f7089');
+  grad.addColorStop(0.52, '#242a34');
+  grad.addColorStop(1.00, '#0a0c11');
+  g.fillStyle = grad; g.fillRect(0, 0, 512, 256);
+
+  // bright softbox highlights for crisp specular streaks
+  const blob = (x, y, rx, ry, alpha) => {
+    const rg = g.createRadialGradient(x, y, 0, x, y, Math.max(rx, ry));
+    rg.addColorStop(0, 'rgba(255,255,255,' + alpha + ')');
+    rg.addColorStop(1, 'rgba(255,255,255,0)');
+    g.save(); g.translate(x, y); g.scale(1, ry / Math.max(rx, ry)); g.translate(-x, -y);
+    g.fillStyle = rg; g.beginPath(); g.arc(x, y, Math.max(rx, ry), 0, Math.PI * 2); g.fill(); g.restore();
+  };
+  blob(120, 60, 90, 55, 0.95);
+  blob(370, 48, 70, 42, 0.75);
+  blob(250, 96, 150, 26, 0.45);
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/* ---------------- decal texture ---------------- */
+function decalTexture(text, sub) {
+  const c = document.createElement('canvas');
+  c.width = 1024; c.height = 256;
+  const x = c.getContext('2d');
+  x.clearRect(0, 0, 1024, 256);
+  x.fillStyle = '#0A0C12';
+  x.font = '900 132px "Arial Black", Arial, sans-serif';
+  x.textBaseline = 'middle';
+  x.fillText(text, 4, 116);
+  x.font = '800 44px Arial, sans-serif';
+  x.fillStyle = 'rgba(10,12,18,.62)';
+  x.fillText(sub, 8, 204);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  return tex;
+}
+
+/* ---------------- van ---------------- */
+function buildVan() {
+  const g = new THREE.Group();
+
+  const yellow = new THREE.MeshPhysicalMaterial({ color: 0xFFC61C, metalness: 0.35, roughness: 0.30, clearcoat: 1.0, clearcoatRoughness: 0.10, envMapIntensity: 0.95 });
+  const yellowDark = new THREE.MeshPhysicalMaterial({ color: 0xE0A200, metalness: 0.4, roughness: 0.35, clearcoat: 0.8, envMapIntensity: 0.8 });
+  const dark = new THREE.MeshStandardMaterial({ color: 0x0B0D13, metalness: 0.55, roughness: 0.42, envMapIntensity: 0.75 });
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0x0A1522, metalness: 0.62, roughness: 0.055, clearcoat: 1, envMapIntensity: 1.9 });
+  const chrome = new THREE.MeshStandardMaterial({ color: 0xDCE3EA, metalness: 1, roughness: 0.22, envMapIntensity: 1.45 });
+  const rubber = new THREE.MeshStandardMaterial({ color: 0x101216, metalness: 0.12, roughness: 0.88 });
+  const red = new THREE.MeshStandardMaterial({ color: 0xE5342B, roughness: 0.48, metalness: 0.12 });
+  const white = new THREE.MeshStandardMaterial({ color: 0xF2F4F7, roughness: 0.5 });
+  const lamp = new THREE.MeshStandardMaterial({ color: 0xFFF8E0, emissive: 0xFFF0C0, emissiveIntensity: 2.8, roughness: 0.15 });
+  const amber = new THREE.MeshStandardMaterial({ color: 0xFF8A00, emissive: 0xFF8A00, emissiveIntensity: 2.0, roughness: 0.3 });
+  const ledRed = new THREE.MeshStandardMaterial({ color: 0xFF3226, emissive: 0xFF3226, emissiveIntensity: 2.0, roughness: 0.3 });
+
+  const add = (geo, mat, x, y, z, rx = 0, ry = 0, rz = 0, shadow = true) => {
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x, y, z);
+    m.rotation.set(rx, ry, rz);
+    m.castShadow = shadow;
+    g.add(m);
+    return m;
+  };
+
+  /* chassis */
+  add(RB(4.3, 0.55, 2.12, 0.10), dark, 0, 0.76, 0);
+  add(RB(4.4, 1.25, 2.05, 0.24, 6), yellow, 0, 1.45, 0);
+  add(RB(4.46, 0.22, 2.02, 0.09), yellow, 0, 2.16, 0);
+  add(RB(4.5, 0.06, 2.06, 0.02), yellowDark, 0, 2.27, 0);
+
+  /* hood + front */
+  add(RB(1.42, 0.80, 1.95, 0.18), yellow, 2.45, 1.12, 0);
+  add(RB(0.10, 0.62, 1.84, 0.03), glass, 2.185, 1.78, 0, 0, 0, 0.28);
+  add(RB(0.14, 0.34, 1.00, 0.04), dark, 3.14, 1.06, 0);
+  add(RB(0.32, 0.34, 2.04, 0.10), dark, 3.14, 0.68, 0);
+  add(RB(0.05, 0.20, 0.60, 0.02), chrome, 3.30, 0.70, 0);
+  add(RB(0.32, 0.34, 2.04, 0.10), dark, -2.16, 0.68, 0);
+
+  /* headlights / signals */
+  [-1, 1].forEach(s => {
+    add(new THREE.CylinderGeometry(0.15, 0.15, 0.12, 20), lamp, 3.13, 1.20, s * 0.66, 0, 0, Math.PI / 2);
+    add(new THREE.CylinderGeometry(0.075, 0.075, 0.10, 16), amber, 3.13, 0.86, s * 0.66, 0, 0, Math.PI / 2);
+    add(RB(0.10, 0.40, 0.34, 0.05), ledRed, -2.22, 1.15, s * 0.72);
+  });
+
+  /* side windows */
+  [[1.45, 0.70], [0.35, 0.95], [-0.75, 0.95], [-1.70, 0.70]].forEach(([x, w]) => {
+    [-1, 1].forEach(s => {
+      add(RB(w, 0.62, 0.10, 0.03, 3), glass, x, 1.70, s * 1.0);
+    });
+  });
+
+  /* door seams */
+  [-1, 1].forEach(s => {
+    add(new THREE.BoxGeometry(0.035, 1.15, 0.03), dark, 1.02, 1.38, s * 1.028, 0, 0, 0, false);
+    add(new THREE.BoxGeometry(0.035, 1.15, 0.03), dark, 1.90, 1.38, s * 1.028, 0, 0, 0, false);
+  });
+
+  /* mirrors */
+  [-1, 1].forEach(s => {
+    add(new THREE.BoxGeometry(0.055, 0.055, 0.30), dark, 2.16, 1.96, s * 1.14);
+    add(RB(0.08, 0.28, 0.15, 0.03), dark, 2.16, 1.83, s * 1.29);
+  });
+
+  /* roof AC unit */
+  add(RB(1.30, 0.18, 1.00, 0.06), white, -0.20, 2.34, 0);
+
+  /* beacons */
+  [-1, 1].forEach(s => {
+    beacons.push(add(new THREE.SphereGeometry(0.085, 16, 12), amber, 2.02, 2.30, s * 0.72));
+    beacons.push(add(new THREE.SphereGeometry(0.085, 16, 12), ledRed, -2.02, 2.30, s * 0.72));
+  });
+  beacons.push(add(new THREE.SphereGeometry(0.10, 16, 12), amber, -1.85, 2.34, -0.60));
+  beacons.push(add(new THREE.SphereGeometry(0.10, 16, 12), amber, -1.85, 2.34, 0.60));
+
+  /* decals */
+  const dec = new THREE.MeshStandardMaterial({ map: decalTexture('SCHOOLRIDE', 'SAFETY · TRACKING · CARE'), transparent: true, roughness: 0.55, metalness: 0, envMapIntensity: 0.4 });
+  [-1, 1].forEach(s => {
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(2.15, 0.54), dec);
+    p.position.set(-0.32, 1.14, s * 1.031);
+    p.rotation.y = s > 0 ? 0 : Math.PI;
+    g.add(p);
+  });
+
+  /* wheels */
+  const wheelPositions = [[1.62, 1], [1.62, -1], [-1.44, 1], [-1.44, -1]];
+  wheelPositions.forEach(([x, s]) => {
+    const w = new THREE.Group();
+    w.position.set(x, 0.50, s * 1.0);
+    const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.50, 0.50, 0.34, 32), rubber);
+    tire.rotation.x = Math.PI / 2; tire.castShadow = true;
+    const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.35, 28), chrome);
+    rim.rotation.x = Math.PI / 2;
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.38, 16), dark);
+    hub.rotation.x = Math.PI / 2;
+    const lugs = new THREE.Group();
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2;
+      const lug = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 6), dark);
+      lug.position.set(Math.cos(a) * 0.19, Math.sin(a) * 0.19, s * 0.18);
+      lugs.add(lug);
+    }
+    w.add(tire, rim, hub, lugs);
+    g.add(w);
+    wheels.push(w);
+  });
+
+  /* stop arm */
+  stopArm = new THREE.Group();
+  stopArm.position.set(-0.55, 1.36, -1.05);
+  const armMesh = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, 0.60), dark);
+  armMesh.position.set(0, 0, -0.30);
+  armMesh.castShadow = true;
+  const signWhite = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.33, 0.02, 8), white);
+  signWhite.rotation.z = Math.PI / 2;
+  signWhite.position.set(0, 0, -0.64);
+  const signRed = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.30, 0.035, 8), red);
+  signRed.rotation.z = Math.PI / 2;
+  signRed.position.set(0, 0, -0.66);
+  signRed.castShadow = true;
+  stopArm.add(armMesh, signWhite, signRed);
+  stopArm.rotation.x = -Math.PI / 2;
+  g.add(stopArm);
+
+  g.traverse(o => { if (o.isMesh) o.receiveShadow = false; });
+  return g;
+}
+
+/* ---------------- init ---------------- */
+function init() {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.06;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(38, 1, 0.1, 120);
+
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromEquirectangular(envTexture()).texture;
+
+  /* lights */
+  scene.add(new THREE.HemisphereLight(0x9dc4ff, 0x08080c, 0.5));
+
+  const key = new THREE.DirectionalLight(0xffffff, 2.5);
+  key.position.set(7, 11, 6);
+  key.castShadow = true;
+  const mobile = window.innerWidth < 900;
+  key.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+  const d = 11;
+  key.shadow.camera.left = -d; key.shadow.camera.right = d;
+  key.shadow.camera.top = d; key.shadow.camera.bottom = -d;
+  key.shadow.camera.near = 0.5; key.shadow.camera.far = 42;
+  key.shadow.bias = -0.0006; key.shadow.normalBias = 0.02; key.shadow.radius = 3;
+  scene.add(key);
+
+  const fill = new THREE.DirectionalLight(0x66a3ff, 0.85);
+  fill.position.set(-8, 5, -6);
+  scene.add(fill);
+
+  const rim = new THREE.DirectionalLight(0xffd24d, 1.7);
+  rim.position.set(-5, 3.5, 9);
+  scene.add(rim);
+
+  /* floor */
+  const floor = new THREE.Mesh(
+    new THREE.CircleGeometry(18, 64),
+    new THREE.MeshStandardMaterial({ color: 0x12161f, roughness: 0.30, metalness: 0.35, envMapIntensity: 0.5 })
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+
+  /* accent light pool */
+  const pc = document.createElement('canvas');
+  pc.width = pc.height = 256;
+  const pg = pc.getContext('2d');
+  const prg = pg.createRadialGradient(128, 128, 0, 128, 128, 128);
+  prg.addColorStop(0, 'rgba(255,212,0,.55)');
+  prg.addColorStop(0.45, 'rgba(255,190,0,.14)');
+  prg.addColorStop(1, 'rgba(255,190,0,0)');
+  pg.fillStyle = prg; pg.fillRect(0, 0, 256, 256);
+  const pool = new THREE.Mesh(
+    new THREE.PlaneGeometry(12, 12),
+    new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(pc), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.55 })
+  );
+  pool.rotation.x = -Math.PI / 2;
+  pool.position.y = 0.012;
+  scene.add(pool);
+
+  /* van */
+  van = buildVan();
+  scene.add(van);
+
+  /* hotspots */
+  const HOT = [
+    { p: new THREE.Vector3(-1.85, 2.55, 0.65), label: 'Beacons', title: '360° safety beacons', body: 'Amber and red LED beacons pulse automatically whenever the doors open — visible for 300m in rain, fog or low light.' },
+    { p: new THREE.Vector3(0.30, 1.80, 1.12), label: 'Cabin', title: 'Live cabin monitoring', body: 'Four HD cameras and seat sensors stream to the parent app. Boarding and drop-off are confirmed in under 2 seconds.' },
+    { p: new THREE.Vector3(-0.55, 1.50, -1.50), label: 'Stop arm', title: 'Smart stop arm', body: 'The stop arm deploys at every crossing and triggers a 30m exclusion alert to nearby traffic apps and to every waiting parent.' },
+    { p: new THREE.Vector3(1.62, 0.52, 1.18), label: 'Telematics', title: 'Route telematics', body: 'Dual GPS plus LTE-M reports position, speed and braking eight times a second, with 1.5m road-snapped accuracy.' },
+    { p: new THREE.Vector3(2.10, 1.95, 0.42), label: 'Driver', title: 'Verified drivers', body: 'Background-checked, permanently employed drivers with 40 hours of annual training and continuous licence monitoring.' }
+  ];
+
+  const container = document.getElementById('hotspots');
+  HOT.forEach(h => {
+    const el = document.createElement('button');
+    el.className = 'hotspot';
+    el.type = 'button';
+    el.innerHTML = '<span class="hd"></span>' + h.label +
+      '<span class="tip"><b>' + h.title + '</b><p>' + h.body + '</p></span>';
+    el.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const isOpen = el.classList.contains('active');
+      container.querySelectorAll('.hotspot').forEach(o => o.classList.remove('active'));
+      if (!isOpen) {
+        el.classList.add('active');
+        if (h.label === 'Stop arm') stopTarget = 1;
+      }
+    });
+    container.appendChild(el);
+    hotspots.push({ el, v: h.p.clone(), anchor: h.p });
+  });
+
+  document.addEventListener('click', () => {
+    container.querySelectorAll('.hotspot').forEach(o => o.classList.remove('active'));
+  });
+
+  resize();
+  window.addEventListener('resize', resize);
+}
+
+let stopTarget = 0;
+
+/* ---------------- layout ---------------- */
+function resize() {
+  if (!renderer) return;
+  const w = hero.clientWidth;
+  const h = hero.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+
+  if (w < 1024) {
+    camPos.set(3.3, 3.3, 15.4);
+    camLook.set(0, 3.1, 0);
+    vanBaseX = 0;
+    vanBaseYaw = -0.62;
+    vanBaseScale = 0.80;
+  } else {
+    camPos.set(6.4, 3.6, 10.6);
+    camLook.set(0.9, 1.30, 0);
+    vanBaseX = 1.9;
+    vanBaseYaw = -0.40;
+    vanBaseScale = 1;
+  }
+}
+
+/* ---------------- loop ---------------- */
+let started = false;
+function loop() {
+  requestAnimationFrame(loop);
+  if (!renderer) return;
+
+  const dt = Math.min(clock.getDelta(), 0.05);
+  t += dt;
+  if (!started) { started = true; clock.start(); }
+
+  /* intro easing */
+  const introTarget = 1;
+  intro += (introTarget - intro) * Math.min(1, dt * 1.1);
+  const ease = 1 - Math.pow(1 - Math.min(intro, 1), 3);
+
+  /* mouse smoothing */
+  mouse.x += (mouse.tx - mouse.x) * Math.min(1, dt * 2.6);
+  mouse.y += (mouse.ty - mouse.y) * Math.min(1, dt * 2.6);
+
+  /* van motion */
+  van.scale.setScalar(vanBaseScale * (0.86 + 0.14 * ease));
+  van.position.x = vanBaseX + (1 - ease) * -9;
+  van.position.y = Math.sin(t * 1.35) * 0.016;
+  van.rotation.y = vanBaseYaw + Math.sin(t * 0.33) * 0.035 + mouse.x * 0.16 + (1 - ease) * 0.35;
+  van.rotation.z = Math.sin(t * 0.9) * 0.006 - mouse.y * 0.008;
+
+  /* wheels + beacons */
+  wheels.forEach(w => { w.rotation.z -= dt * (1.7 + Math.sin(t * 0.6) * 0.25); });
+  beacons.forEach((b, i) => {
+    const ph = (i % 2) * 0.5;
+    b.material.emissiveIntensity = 1.1 + 1.5 * (0.5 + 0.5 * Math.sin(t * 3.1 + ph * Math.PI));
+  });
+
+  /* stop arm */
+  if (stopArm) {
+    stopArm.rotation.x += ((-Math.PI / 2 + stopTarget * (Math.PI / 2)) - stopArm.rotation.x) * Math.min(1, dt * 4);
+  }
+
+  /* camera */
+  const cpx = camPos.x + mouse.x * 0.9;
+  const cpy = camPos.y - mouse.y * 0.5;
+  camera.position.lerp(new THREE.Vector3(cpx, cpy, camPos.z + (1 - ease) * 3.5), Math.min(1, dt * 2.2));
+  lookNow.lerp(camLook, Math.min(1, dt * 2.2));
+  camera.lookAt(lookNow);
+
+  /* hotspots projection */
+  if (window.innerWidth >= 1024) {
+    const rect = hero.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    hotspots.forEach(hs => {
+      const world = hs.v.clone();
+      van.localToWorld(world);
+      const p = world.clone().project(camera);
+      const x = (p.x * 0.5 + 0.5) * w;
+      const y = (-p.y * 0.5 + 0.5) * h;
+      const visible = p.z < 1 && x > -80 && x < w + 80;
+      hs.el.style.setProperty('--x', x.toFixed(1) + 'px');
+      hs.el.style.setProperty('--y', y.toFixed(1) + 'px');
+      hs.el.style.opacity = visible ? '1' : '0';
+      hs.el.style.pointerEvents = visible ? 'auto' : 'none';
+    });
+  }
+
+  /* slight parallax on scroll */
+  const sc = Math.min(window.scrollY, hero.clientHeight);
+  if (sc > 0) van.position.y -= sc * 0.0012;
+
+  renderer.render(scene, camera);
+}
+
+/* ---------------- boot ---------------- */
+try {
+  init();
+  loop();
+} catch (err) {
+  console.warn('3D scene unavailable:', err);
+  canvas.style.display = 'none';
+  const hs = document.getElementById('hotspots');
+  if (hs) hs.style.display = 'none';
+}
+
+window.addEventListener('mousemove', (e) => {
+  mouse.tx = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.ty = (e.clientY / window.innerHeight) * 2 - 1;
+}, { passive: true });
+
+/* hero CTA easter egg */
+document.getElementById('actionBtn')?.addEventListener('click', () => {
+  stopTarget = 1;
+  const first = document.querySelector('.hotspot');
+  if (first) {
+    document.querySelectorAll('.hotspot').forEach(o => o.classList.remove('active'));
+    const stop = [...document.querySelectorAll('.hotspot')].find(el => el.textContent.includes('Stop arm'));
+    if (stop) stop.classList.add('active');
+  }
+  setTimeout(() => { stopTarget = 0; }, 4200);
+});
+</script>
+
+<script>
+/* =========================================================
+   UI / INTERACTIONS
+   ========================================================= */
+(function () {
+  'use strict';
+
+  /* ---------- nav ---------- */
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  const onScroll = () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 24);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    menu.classList.remove('open');
+  }));
+
+  /* ---------- reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ---------- counters ---------- */
+  const counters = document.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const decimals = (el.dataset.count.split('.')[1] || '').length;
+      const dur = 1400;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = (target * eased).toFixed(decimals) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      cio.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => cio.observe(el));
+
+  /* ---------- tracking stepper ---------- */
+  const steps = [...document.querySelectorAll('[data-step]')];
+  const stepsProgress = document.getElementById('stepsProgress');
+  const replayBtn = document.getElementById('replayBtn');
+  let stepTimer = null;
+
+  function playSteps() {
+    clearTimeout(stepTimer);
+    steps.forEach(s => s.classList.remove('done'));
+    if (stepsProgress) stepsProgress.style.height = '0px';
+    steps.forEach((s, i) => {
+      stepTimer = setTimeout(() => {
+        s.classList.add('done');
+        const total = steps.length - 1;
+        const pct = total > 0 ? (i / total) : 1;
+        const container = s.parentElement;
+        const target = Math.max(0, container.offsetHeight - 52) * pct;
+        if (stepsProgress) stepsProgress.style.height = target + 'px';
+      }, 260 + i * 620);
+    });
+  }
+  const sio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { playSteps(); sio.disconnect(); } });
+  }, { threshold: 0.25 });
+  const stepsEl = document.getElementById('steps');
+  if (stepsEl) sio.observe(stepsEl);
+  if (replayBtn) replayBtn.addEventListener('click', playSteps);
+
+  /* ---------- map movers ---------- */
+  const movers = [];
+  function registerMover(pathId, markerId, trailId, speed) {
+    const path = document.getElementById(pathId);
+    const marker = document.getElementById(markerId);
+    if (!path || !marker) return;
+    const total = path.getTotalLength();
+    let trail = null;
+    if (trailId) {
+      trail = document.getElementById(trailId);
+      if (trail) { trail.style.strokeDasharray = total; trail.style.strokeDashoffset = total; }
+    }
+    movers.push({ path, marker, trail, total, p: Math.random() * 0.25, speed });
+  }
+  registerMover('miniRoute', 'miniVan', null, 0.055);
+  registerMover('liveTrail', 'liveVan', null, 0.042);
+
+  const liveEta = document.getElementById('liveEta');
+  const liveEtaSub = document.getElementById('liveEtaSub');
+  const liveSpeed = document.getElementById('liveSpeed');
+  const phoneEta = document.getElementById('phoneEta');
+  const phoneEtaSub = document.getElementById('phoneEtaSub');
+  const phoneBar = document.getElementById('phoneBar');
+  const phoneClock = document.getElementById('phoneClock');
+  let lastEta = -1;
+
+  function mapLoop(now) {
+    const prev = mapLoop._prev || now;
+    let dt = (now - prev) / 1000;
+    mapLoop._prev = now;
+    dt = Math.min(dt, 0.06);
+
+    movers.forEach(m => {
+      m.p += m.speed * dt;
+      if (m.p > 1) m.p = 0;
+      const pt = m.path.getPointAtLength(m.p * m.total);
+      m.marker.setAttribute('transform', 'translate(' + pt.x.toFixed(2) + ',' + pt.y.toFixed(2) + ')');
+      if (m.trail) m.trail.style.strokeDashoffset = (m.total * (1 - m.p)).toFixed(1);
+    });
+
+    const live = movers[1];
+    if (live && liveEta) {
+      const mins = Math.max(1, Math.round((1 - live.p) * 7 + 1));
+      if (mins !== lastEta) {
+        lastEta = mins;
+        liveEta.textContent = mins;
+        if (phoneEta) phoneEta.innerHTML = Math.min(9, mins + 1) + '<span>min</span>';
+        if (phoneBar) phoneBar.style.width = Math.min(96, 30 + live.p * 62) + '%';
+        if (liveEtaSub) {
+          const km = (2.1 * (1 - live.p) + 0.2).toFixed(1);
+          liveEtaSub.textContent = 'Next stop · Oakwood & 4th · ' + km + ' km away';
+        }
+        if (phoneEtaSub) {
+          const total = 7 * 60 + 18 + Math.min(9, mins + 1);
+          const hh = String(Math.floor(total / 60)).padStart(2, '0');
+          const mm = String(total % 60).padStart(2, '0');
+          phoneEtaSub.textContent = 'Arriving ' + hh + ':' + mm + ' · On time';
+        }
+      }
+      if (liveSpeed) {
+        const kmh = Math.round(22 + Math.sin(now / 1400) * 14 + live.p * 12);
+        liveSpeed.textContent = kmh + ' km/h · Van 12';
+      }
+    }
+    if (phoneClock) {
+      const total = 7 * 60 + 18;
+      phoneClock.textContent = '07:' + String((total + Math.floor(now / 60000)) % 60).padStart(2, '0');
+    }
+    requestAnimationFrame(mapLoop);
+  }
+  requestAnimationFrame(mapLoop);
+
+  /* ---------- safety cards ---------- */
+  document.querySelectorAll('.sfcard').forEach(card => {
+    card.addEventListener('click', () => {
+      const open = card.classList.contains('open');
+      document.querySelectorAll('.sfcard').forEach(c => c.classList.remove('open'));
+      if (!open) card.classList.add('open');
+    });
+  });
+
+  /* ---------- route filters ---------- */
+  const chips = document.querySelectorAll('.chip');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const f = chip.dataset.filter;
+      document.querySelectorAll('#routesGrid .rt').forEach(card => {
+        const show = f === 'all' || card.dataset.cat === f;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  /* ---------- pricing toggle ---------- */
+  const toggle = document.getElementById('planToggle');
+  if (toggle) {
+    toggle.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        toggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const annual = btn.dataset.period === 'annual';
+        document.querySelectorAll('.price-val').forEach(el => {
+          const v = annual ? el.dataset.annual : el.dataset.monthly;
+          el.textContent = '$' + v;
+        });
+      });
+    });
+  }
+
+  /* ---------- testimonials ---------- */
+  const track = document.getElementById('tstTrack');
+  const dotsWrap = document.getElementById('tstDots');
+  let idx = 0;
+  const total = track ? track.children.length : 0;
+  let auto = null;
+
+  if (track && dotsWrap) {
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('i');
+      if (i === 0) d.classList.add('on');
+      d.addEventListener('click', () => go(i));
+      dotsWrap.appendChild(d);
+    }
+    function go(i) {
+      idx = (i + total) % total;
+      track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+      [...dotsWrap.children].forEach((d, k) => d.classList.toggle('on', k === idx));
+    }
+    document.getElementById('tstNext').addEventListener('click', () => { go(idx + 1); restart(); });
+    document.getElementById('tstPrev').addEventListener('click', () => { go(idx - 1); restart(); });
+    function restart() {
+      clearInterval(auto);
+      auto = setInterval(() => go(idx + 1), 6500);
+    }
+    restart();
+    const wrap = document.getElementById('tstWrap');
+    wrap.addEventListener('mouseenter', () => clearInterval(auto));
+    wrap.addEventListener('mouseleave', restart);
+  }
+
+  /* ---------- FAQ ---------- */
+  document.querySelectorAll('.fq').forEach(item => {
+    const head = item.querySelector('.fq-h');
+    const body = item.querySelector('.fq-b');
+    head.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.fq').forEach(f => {
+        f.classList.remove('open');
+        f.querySelector('.fq-b').style.maxHeight = '0px';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ---------- contact form ---------- */
+  const form = document.getElementById('demoForm');
+  const msg = document.getElementById('formMsg');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let ok = true;
+      ['fname', 'femail', 'frole', 'fmsg'].forEach(id => {
+        const el = document.getElementById(id);
+        const fld = el.closest('.fld');
+        const valid = el.value.trim().length > 0 && (id !== 'femail' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value));
+        fld.classList.toggle('err', !valid);
+        if (!valid) ok = false;
+      });
+      if (!ok) {
+        msg.className = 'form-msg';
+        msg.style.display = 'none';
+        return;
+      }
+      msg.className = 'form-msg ok';
+      msg.textContent = '✓ Demo request received. A route specialist will email you a live demo link within 2 working hours.';
+      form.reset();
+    });
+  }
+
+  /* ---------- year ---------- */
+  const y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
